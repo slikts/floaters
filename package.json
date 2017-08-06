@@ -1,0 +1,26 @@
+{
+  "name": "soup",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack-dev-server"
+  },
+  "keywords": [],
+  "devDependencies": {
+    "@types/pixi.js": "^4.4.1",
+    "css-loader": "^0.27.3",
+    "node-sass": "^4.5.0",
+    "sass-loader": "^6.0.3",
+    "style-loader": "^0.15.0",
+    "ts-loader": "^2.0.3",
+    "tslint-microsoft-contrib": "^4.0.1",
+    "typescript": "^2.3.0-dev.20170330",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.2"
+  },
+  "dependencies": {
+    "pixi.js": "^4.4.2",
+    "screenfull": "^3.1.0",
+    "shifty": "^2.1.1"
+  }
+}

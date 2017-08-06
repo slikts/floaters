@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedParameters": true,
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
+    "target": "esnext",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "strictNullChecks": true,
+    "alwaysStrict": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": [
+      "es2017",
+      "dom"
+    ]
+  }
+}
