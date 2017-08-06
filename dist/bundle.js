@@ -20223,7 +20223,6 @@ class Floaters {
         upperEyelid.anchor.set(0.5, 0);
         upperEyelid.x = renderer.width / 2;
         upperEyelid.y = -renderer.height;
-        stage.addChild(upperEyelid);
         const lowerEyelid = PIXI.Sprite.fromImage('images/eyelid.png');
         lowerEyelid.texture.baseTexture.on('loaded', () => {
             lowerEyelid.width = renderer.width;
@@ -20233,7 +20232,6 @@ class Floaters {
         lowerEyelid.rotation = degToRad(180);
         lowerEyelid.x = renderer.width / 2;
         lowerEyelid.y = renderer.height;
-        stage.addChild(lowerEyelid);
         document.body.appendChild(app.view);
         const randomCoords = (min, max) => ({
             x: randomCoord(renderer.width, ...[min, max]),
@@ -20248,6 +20246,8 @@ class Floaters {
             floaterContainer.addChild(sprite);
         });
         stage.addChild(floaterContainer);
+        stage.addChild(upperEyelid);
+        stage.addChild(lowerEyelid);
         const extractCoords = ({ x, y }) => ({ x, y });
         const [minDuration, maxDuration] = duration;
         const randomFloat = (coords) => {
@@ -20325,10 +20325,10 @@ class Floaters {
             await openEyelids();
         };
         blink();
-        document.body.addEventListener('mousedown', () => {
+        document.body.addEventListener('pointerdown', () => {
             closeEyelids();
         });
-        document.body.addEventListener('mouseup', () => {
+        document.body.addEventListener('pointerup', () => {
             openEyelids();
         });
     }

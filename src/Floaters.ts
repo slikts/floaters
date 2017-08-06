@@ -54,7 +54,6 @@ export default class Floaters {
     upperEyelid.anchor.set(0.5, 0)
     upperEyelid.x = renderer.width / 2
     upperEyelid.y = -renderer.height
-    stage.addChild(upperEyelid)
 
     const lowerEyelid = PIXI.Sprite.fromImage('images/eyelid.png')
 
@@ -67,8 +66,6 @@ export default class Floaters {
     lowerEyelid.x = renderer.width / 2
     lowerEyelid.y = renderer.height
     
-    stage.addChild(lowerEyelid)
-
 
     document.body.appendChild(app.view)
 
@@ -89,6 +86,8 @@ export default class Floaters {
     })
 
     stage.addChild(floaterContainer)
+    stage.addChild(upperEyelid)
+    stage.addChild(lowerEyelid)
 
     const extractCoords = ({x, y}: Coords) => ({x, y})
     const [minDuration, maxDuration] = duration
@@ -175,10 +174,10 @@ export default class Floaters {
     }
     blink()
 
-    document.body.addEventListener('mousedown', () => {
+    document.body.addEventListener('pointerdown', () => {
       closeEyelids()
     })
-    document.body.addEventListener('mouseup', () => {
+    document.body.addEventListener('pointerup', () => {
       openEyelids()
     })
 
