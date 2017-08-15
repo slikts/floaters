@@ -9,19 +9,19 @@ import {
 } from './util'
 import Planes from './Planes'
 import Eyelids from './Eyelids'
+import { Config } from './Config'
 
-
-const sceneSize = [1280, 720]
 
 export default class Floaters {
   readonly app: Application
 
-  constructor() {
-    const [sceneX, sceneY] = sceneSize
+  constructor(readonly config: Config) {
+    const [sceneX, sceneY] = config.sceneSize
     const app = new Application(sceneX, sceneY, { transparent: true })
 
     init(this, {
       app,
+      config,
     })
   }
 
@@ -39,7 +39,7 @@ export default class Floaters {
     })
     stage.addChild(background)
 
-    const planes = new Planes(renderer)
+    const planes = new Planes(renderer, this.config)
     stage.addChild(planes.container)
     stage.addChild(upperEyelid)
     stage.addChild(lowerEyelid)

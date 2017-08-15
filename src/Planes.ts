@@ -3,11 +3,11 @@ import { tween } from 'shifty'
 import {
   log,
   init,
-  multiConcat,
   getRandomArbitrary,
   degToRad,
 } from './util'
 import Random from './Random'
+import { Config } from './Config'
 
 
 export type Coords = {
@@ -15,28 +15,20 @@ export type Coords = {
   y: number,
 }
 
-const imageNums = [3, 6, 9, 12, 15, 18, 23, 30, 33, 38, 41, 45, 49, 52]
-const planeNumber = 5
-const floatersPerPlane = 200
-const blendMode = PIXI.BLEND_MODES.DARKEN
-const imageNames = multiConcat(Math.ceil(floatersPerPlane / imageNums.length), imageNums).slice(0, floatersPerPlane).map(n => `images/slices_${n}.png`)
-const trailDelay = 20
-const curveFactor = 0.5
-
 const extractCoords = ({x, y}: Coords) => ({x, y})
 
 
 class Plane {
   container: PIXI.Container
 
-  constructor(readonly random: Random, readonly index: number) {
-    const sprites = imageNames.map(name => PIXI.Sprite.fromImage(name))
+  constructor(readonly random: Random, readonly index: number, readonly config: Config) {
+    const sprites = config.imageNames.map(name => PIXI.Sprite.fromImage(name))
     const container = new PIXI.Container()
     
     sprites.forEach(sprite => {
       sprite.rotation += degToRad(Math.random() * 360)
       Object.assign(sprite, random.coords(-1, 2))
-      sprite.blendMode = blendMode
+      sprite.blendMode = this.config.blendMode
       sprite.scale.set(1 - index / 10)
       container.addChild(sprite)
     })
@@ -44,11 +36,12 @@ class Plane {
     init(this, {
       index,
       container,
+      config,
     })
   }
 
   float() {
-    const randomness = getRandomArbitrary(-curveFactor, curveFactor)
+    const randomness = getRandomArbitrary(-this.config.curveFactor, this.config.curveFactor)
     let curve = 0
     const step = this.random.getCounted()
     const {coords, duration, easing} = step
@@ -74,11 +67,11 @@ export default class Planes {
   random: Random
   planes: Plane[]
   
-  constructor(readonly renderer: Renderer) {
-    const sprites = imageNames.map(name => PIXI.Sprite.fromImage(name))
-    const random = new Random(renderer, planeNumber)
+  constructor(readonly renderer: Renderer, readonly config: Config) {
+    const sprites = config.imageNames.map(name => PIXI.Sprite.fromImage(name))
+    const random = new Random(renderer, config.planeNumber)
     const container = new PIXI.Container()
-    const planes = Array.from(Array(planeNumber), (_, i) => new Plane(random, i))
+    const planes = Array.from(Array(config.planeNumber), (_, i) => new Plane(random, i, config))
 
     planes.reverse().forEach(plane => {
       container.addChild(plane.container)
@@ -95,7 +88,7 @@ export default class Planes {
     this.planes.forEach(plane => {
       setTimeout(() => {
         plane.float()
-      }, plane.index * trailDelay)
+      }, plane.index * this.config.trailDelay)
     })
   }
 }
