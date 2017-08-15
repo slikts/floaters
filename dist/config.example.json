@@ -2,7 +2,7 @@
   "sceneSize": [1280, 720],
   "planeNumber": 5,
   "floatersPerPlane": 200,
-  "blendMode": "DARKEN",
+  "blendModeKey": "DARKEN",
   "trailDelay": 20,
   "curveFactor": 0.5
 }
