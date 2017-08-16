@@ -1,6 +1,7 @@
 import {
   log,
   multiConcat,
+  padStart,
 } from './util'
 
 type RawConfig = {
@@ -10,6 +11,10 @@ type RawConfig = {
   blendModeKey: 'NORMAL' | 'ADD' | 'MULTIPLY' | 'SCREEN' | 'OVERLAY' | 'DARKEN' | 'LIGHTEN' | 'COLOR_DODGE' | 'COLOR_BURN' | 'HARD_LIGHT' | 'SOFT_LIGHT' | 'DIFFERENCE' | 'EXCLUSION' | 'HUE' | 'SATURATION' | 'COLOR' | 'LUMINOSITY' | 'NORMAL_NPM' | 'ADD_NPM' | 'SCREEN_NPM',
   trailDelay: number,
   curveFactor: number,
+  blinkChance: number,
+  scaleFactor: number,
+  reloadTimeout: number,
+  motionHost: string,
 }
 
 export interface Config extends RawConfig {
@@ -17,7 +22,7 @@ export interface Config extends RawConfig {
   imageNames: string[],
 }
 
-const imageNums = [3, 6, 9, 12, 15, 18, 23, 30, 33, 38, 41, 45, 49, 52]
+const imageNums = [3, 6, 9, 12, 15, 18, 23, 30, 33, 38, 41, 45, 49, 52].map(n => padStart(String(n), 2, '0'))
 
 export const fetchConfig = async () => {
   const config = <RawConfig>await (await fetch('./config.json?' + Math.random())).json()

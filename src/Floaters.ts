@@ -11,7 +11,6 @@ import Planes from './Planes'
 import Eyelids from './Eyelids'
 import { Config } from './Config'
 
-
 export default class Floaters {
   readonly app: Application
 
@@ -26,7 +25,9 @@ export default class Floaters {
   }
 
   async run() {
-    const { app, app: { stage, renderer } } = this
+    const { app, app: { stage, renderer }, config } = this
+
+    const ws = new WebSocket('wss://' + config.motionHost)
 
     const eyelids = new Eyelids(renderer)
     const {upperEyelid, lowerEyelid} = eyelids
@@ -39,7 +40,7 @@ export default class Floaters {
     })
     stage.addChild(background)
 
-    const planes = new Planes(renderer, this.config)
+    const planes = new Planes(renderer, config)
     stage.addChild(planes.container)
     stage.addChild(upperEyelid)
     stage.addChild(lowerEyelid)
@@ -49,7 +50,7 @@ export default class Floaters {
     planes.float()
     setTimeout(() => eyelids.blink(), 100)
     setInterval(() => {
-      if (Math.random() < 0.9) {
+      if (Math.random() > config.blinkChance) {
         return
       }
       eyelids.blink()
@@ -62,5 +63,8 @@ export default class Floaters {
       eyelids.open()
     })
 
+    ws.onmessage = () => {
+      eyelids.blink()
+    }
   }
 }

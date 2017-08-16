@@ -29,7 +29,7 @@ class Plane {
       sprite.rotation += degToRad(Math.random() * 360)
       Object.assign(sprite, random.coords(-1, 2))
       sprite.blendMode = this.config.blendMode
-      sprite.scale.set(1 - index / 10)
+      sprite.scale.set(1 - index / this.config.scaleFactor)
       container.addChild(sprite)
     })
 

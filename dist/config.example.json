@@ -4,5 +4,6 @@
   "floatersPerPlane": 200,
   "blendModeKey": "DARKEN",
   "trailDelay": 20,
-  "curveFactor": 0.5
+  "curveFactor": 0.5,
+  "blinkChance": 0.01
 }
