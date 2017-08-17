@@ -6,6 +6,7 @@ import {
 
 type RawConfig = {
   sceneSize: [number, number],
+  portSize: [number, number],
   planeNumber: number,
   floatersPerPlane: number,
   blendModeKey: 'NORMAL' | 'ADD' | 'MULTIPLY' | 'SCREEN' | 'OVERLAY' | 'DARKEN' | 'LIGHTEN' | 'COLOR_DODGE' | 'COLOR_BURN' | 'HARD_LIGHT' | 'SOFT_LIGHT' | 'DIFFERENCE' | 'EXCLUSION' | 'HUE' | 'SATURATION' | 'COLOR' | 'LUMINOSITY' | 'NORMAL_NPM' | 'ADD_NPM' | 'SCREEN_NPM',
@@ -15,6 +16,7 @@ type RawConfig = {
   scaleFactor: number,
   reloadTimeout: number,
   motionHost: string,
+  autoblink: boolean,
 }
 
 export interface Config extends RawConfig {

@@ -10,6 +10,7 @@ import {
 import Planes from './Planes'
 import Eyelids from './Eyelids'
 import { Config } from './Config'
+import * as ReconnectingWebSocket from 'reconnecting-websocket'
 
 export default class Floaters {
   readonly app: Application
@@ -20,14 +21,15 @@ export default class Floaters {
 
     init(this, {
       app,
-      config,
+      config, 
     })
   }
 
   async run() {
     const { app, app: { stage, renderer }, config } = this
 
-    const ws = new WebSocket('wss://' + config.motionHost)
+    // const ws = new WebSocket(config.motionHost)
+    const ws = <WebSocket>(new ReconnectingWebSocket(config.motionHost))
 
     const eyelids = new Eyelids(renderer)
     const {upperEyelid, lowerEyelid} = eyelids
@@ -45,16 +47,29 @@ export default class Floaters {
     stage.addChild(upperEyelid)
     stage.addChild(lowerEyelid)
     
+    const [portX, portY] = config.portSize
+    if (portX && portY) {
+      const style = app.view.style
+      style.width = `${portX}px`
+      style.height = `${portY}px`
+      style.marginLeft = '50%'
+      style.marginTop = '50%'
+      style.position = 'absolute'
+      style.left = `-${portX / 2}px`
+      style.top = `-${portY / 2}px`
+    }
     document.body.appendChild(app.view)
 
     planes.float()
     setTimeout(() => eyelids.blink(), 100)
-    setInterval(() => {
-      if (Math.random() > config.blinkChance) {
-        return
-      }
-      eyelids.blink()
-    }, 500)
+    if (config.autoblink) {
+      setInterval(() => {
+        if (Math.random() > config.blinkChance) {
+          return
+        }
+        eyelids.blink()
+      }, 100)
+    }
 
     document.body.addEventListener('pointerdown', () => {
       eyelids.close()
@@ -63,7 +78,8 @@ export default class Floaters {
       eyelids.open()
     })
 
-    ws.onmessage = () => {
+    ws.onmessage = ({data}) => {
+      console.log(data)
       eyelids.blink()
     }
   }

@@ -1,9 +1,14 @@
 {
   "sceneSize": [1280, 720],
+  "portSize": [400, 400],
   "planeNumber": 5,
   "floatersPerPlane": 200,
   "blendModeKey": "DARKEN",
   "trailDelay": 20,
   "curveFactor": 0.5,
-  "blinkChance": 0.01
+  "blinkChance": 0.05,
+  "scaleFactor": 10,
+  "reloadTimeout": 600,
+  "motionHost": "ws://10.0.0.137:8090",
+  "autoblink": false
 }

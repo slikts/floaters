@@ -83,7 +83,7 @@ export default class Eyelids {
 
   async close() {
     if (this.closing) {
-      return
+      return false
     }
     this.closing = true
     await tween({
@@ -96,6 +96,7 @@ export default class Eyelids {
     if (!this.closing) {
       this.open()
     }
+    return true
   }
 
   open() {
@@ -110,7 +111,8 @@ export default class Eyelids {
   }
 
   async blink() {
-    await this.close()
-    await this.open()
+    if (await this.close()) {
+      await this.open()
+    }
   }
 }
